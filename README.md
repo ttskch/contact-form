@@ -52,12 +52,12 @@ $cf->validateAndRedirectAfterSelfPosted('./confirm.php', $requiredKeys, $emailKe
     <!-- text field with submitted value if exists -->
     <input type="text" name="Name" value="<?= $cf->present('Name'); ?>" required autofocus>
     <!-- show error if exists -->
-    <p><?= $cf->errors->get('Name'); ?></p>
+    <p><?= $cf->presentError('Name'); ?></p>
     
     <!-- text field with submitted value if exists -->
     <input type="email" name="Email" value="<?= $cf->present('Email'); ?>" required>
     <!-- show error if exists -->
-    <p><?= $cf->errors->get('Email'); ?></p>
+    <p><?= $cf->presentError('Email'); ?></p>
     
     <!-- selector field with selection submitted or default option -->
     <select class="form-control" name="Gender">
