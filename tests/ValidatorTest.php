@@ -10,24 +10,18 @@ class ValidatorTest extends TestCase
     /**
      * @dataProvider validateProvider
      */
-    public function testValidate($keyValues, $requiredKeys, $emailKeys, $expectedMessageKeyValues)
+    public function testValidate($submittedData, $requiredKeys, $emailKeys, $expectedMessageKeyValues)
     {
-        $submissions = $this->prophesize(Submissions::class);
-
         // not use mock but actual
         $_SESSION = [];
+        $_POST = @$submittedData['$_POST'] ?: [];
+        $_FILES = @$submittedData['$_FILES'] ?: [];
+        $submissions = new Submissions(new UploadedFilesFixer());
+        $submissions->initialize();
         $errors = new Errors();
 
-        foreach ($requiredKeys as $key) {
-            $submissions->has($key)->willReturn((boolean)$keyValues[$key]);
-        }
-
-        foreach ($emailKeys as $key) {
-            $submissions->get($key)->willReturn($keyValues[$key]);
-        }
-
         $validator = new Validator($requiredKeys, $emailKeys);
-        $validator->validate($submissions->reveal(), $errors);
+        $validator->validate($submissions, $errors);
 
         if (!count($expectedMessageKeyValues)) {
             $this->assertEquals(0, count($errors->getAll()));
@@ -42,22 +36,46 @@ class ValidatorTest extends TestCase
     {
         return [
             [
-                ['Name' => 'John', 'Email' => 'john@gmail.com'],
+                [
+                    '$_POST' => ['Name' => 'john', 'Email' => 'john@gmail.com'],
+                ],
                 ['Name', 'Email'],
                 ['Email'],
                 [],
             ],
             [
-                ['Name' => '', 'Email' => 'john'],
+                [
+                    '$_POST' => ['Name' => '', 'Email' => 'john@gmail'],
+                ],
+
                 ['Name', 'Email'],
                 ['Email'],
-                ['Name' => Validator::REQUIRED_MESSAGE, 'Email' => Validator::EMAIL_MESSAGE],
+                ['Name' => Validator::DEFAULT_REQUIRED_MESSAGE, 'Email' => Validator::DEFAULT_EMAIL_MESSAGE],
             ],
             [
-                ['Name' => 'John', 'Email' => ''],
+                [
+                    '$_POST' => ['Name' => 'john', 'Email' => ''],
+                ],
                 ['Name', 'Email'],
                 ['Email'],
-                ['Email' => Validator::REQUIRED_MESSAGE], // REQUIRED_MESSAGE wins against EMAIL_MESSAGE
+                ['Email' => Validator::DEFAULT_REQUIRED_MESSAGE], // "required message" wins against "email message"
+            ],
+            [
+                [
+                    '$_FILES' => [
+                        'File' => [
+                            'name' => '',
+                            'tmp_name' => '',
+                        ],
+                        'Files' => [
+                            'name' => ['', ''],
+                            'tmp_name' => ['', ''],
+                        ],
+                    ],
+                ],
+                ['File', 'Files'],
+                [],
+                ['File' => Validator::DEFAULT_REQUIRED_MESSAGE, 'Files' => Validator::DEFAULT_REQUIRED_MESSAGE]
             ],
         ];
     }

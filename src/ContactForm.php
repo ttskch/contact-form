@@ -4,6 +4,7 @@ namespace Ttskch\ContactForm;
 use Ttskch\ContactForm\Session\Csrf;
 use Ttskch\ContactForm\Session\Errors;
 use Ttskch\ContactForm\Session\Submissions;
+use Ttskch\ContactForm\ValueObject\ValidationMessages;
 
 class ContactForm
 {
@@ -40,8 +41,13 @@ class ContactForm
      */
     private $csrf;
 
+    /**
+     * @var ValidationMessages
+     */
+    private $validationMessages;
 
-    public function __construct(\Swift_Transport $transport = null)
+
+    public function __construct(ValidationMessages $validationMessages = null, \Swift_Transport $transport = null)
     {
         $this->submissions = new Submissions(new UploadedFilesFixer());
         $this->errors = new Errors();
@@ -49,6 +55,7 @@ class ContactForm
         $this->mailer = new Mailer($this->submissions, $transport);
         $this->context = new RequestContext();
         $this->csrf = new Csrf();
+        $this->validationMessages = $validationMessages;
 
         session_start();
 
@@ -70,7 +77,7 @@ class ContactForm
 
         $this->csrf->validate($this->submissions->get(self::CSRF_INPUT_NAME));
 
-        $validator = new Validator($requiredKeys, $emailKeys);
+        $validator = new Validator($requiredKeys, $emailKeys, $this->validationMessages);
         $validator->validate($this->submissions, $this->errors);
 
         if (count($this->errors->getAll()) === 0) {
