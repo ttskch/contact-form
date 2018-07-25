@@ -52,7 +52,7 @@ foreach ($configs as $config) {
     );
 }
 
-$cf->clearSubmission();
+$cf->clearSubmissions();
 ?>
 <!doctype html>
 <html>
