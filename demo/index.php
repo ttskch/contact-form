@@ -25,13 +25,13 @@ $cf->validateAndRedirectAfterSelfPosted('./confirm.php', ['Name', 'Email'], ['Em
         <div class="form-group">
             <label>Name <span style="color:#d00">*</span></label>
             <input class="form-control <?= $cf->hasError('Name') ? 'is-invalid' : ''; ?>" type="text" name="Name" value="<?= $cf->present('Name'); ?>" required autofocus>
-            <span class="invalid-feedback"><?= $cf->errors->get('Name'); ?></span>
+            <span class="invalid-feedback"><?= $cf->presentError('Name'); ?></span>
         </div>
 
         <div class="form-group">
             <label>Email <span style="color:#d00">*</span></label>
             <input class="form-control <?= $cf->hasError('Email') ? 'is-invalid' : '' ?>" type="email" name="Email" value="<?= $cf->present('Email'); ?>" required>
-            <span class="invalid-feedback"><?= $cf->errors->get('Email'); ?></span>
+            <span class="invalid-feedback"><?= $cf->presentError('Email'); ?></span>
         </div>
 
         <div class="form-group">

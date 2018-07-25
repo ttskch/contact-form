@@ -13,18 +13,22 @@ class ContactForm
     /**
      * @var Submissions
      */
-    public $submissions;
+    private $submissions;
 
     /**
      * @var Errors
      */
-    public $errors;
+    private $errors;
 
     /**
      * @var SubmissionPresenter
      */
-    public $presenter;
+    private $presenter;
 
+    /**
+     * @var Mailer
+     */
+    private $mailer;
 
     /**
      * @var RequestContext
@@ -36,21 +40,15 @@ class ContactForm
      */
     private $csrf;
 
-    /**
-     * @var Mailer
-     */
-    private $mailer;
-
 
     public function __construct(\Swift_Transport $transport = null)
     {
         $this->submissions = new Submissions(new UploadedFilesFixer());
         $this->errors = new Errors();
         $this->presenter = new SubmissionPresenter($this->submissions);
-
+        $this->mailer = new Mailer($this->submissions, $transport);
         $this->context = new RequestContext();
         $this->csrf = new Csrf();
-        $this->mailer = new Mailer($this->submissions, $transport);
 
         session_start();
 
