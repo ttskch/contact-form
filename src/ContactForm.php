@@ -79,7 +79,7 @@ class ContactForm
             $this->redirectTo($redirectTo);
         } else {
             // redirect to self to clear POST data
-            $this->redirectTo($_SERVER['SCRIPT_NAME']);
+            $this->redirectTo($_SERVER['REQUEST_URI']);
         }
     }
 
