@@ -60,7 +60,7 @@ $cf->validateAndRedirectAfterSelfPosted('./thanks.php');
 
         <div class="form-group">
             <label>Sub Pictures</label>
-            <p><?= $cf->present('Sub_Pictures.name', true, false, '<code>%s</code>'); ?></p>
+            <p><?= $cf->present('Sub_Pictures.name', true, false, '<code>%s</code>', '<br>'); ?></p>
         </div>
 
         <div class="form-group">
