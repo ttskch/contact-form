@@ -32,7 +32,7 @@ class Validator
         $errors->clear();
 
         foreach ($this->requiredKeys as $key) {
-            if (!$submissions->has($key)) {
+            if (!$submissions->has($key) || !$submissions->has("{$key}.name") || !$submissions->has("{$key}.name.0")) {
                 $errors->set($key, self::REQUIRED_MESSAGE);
             }
         }

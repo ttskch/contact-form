@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $cf = new \Ttskch\ContactForm\ContactForm();
-$cf->validateAndRedirectAfterSelfPosted('./confirm.php', ['Name', 'Email'], ['Email']);
+$cf->validateAndRedirectAfterSelfPosted('./confirm.php', ['Name', 'Email', 'Main_Picture', 'Sub_Pictures'], ['Email']);
 ?>
 <!doctype html>
 <html>
@@ -79,13 +79,15 @@ $cf->validateAndRedirectAfterSelfPosted('./confirm.php', ['Name', 'Email'], ['Em
         </div>
 
         <div class="form-group">
-            <label>Main Picture</label>
-            <input class="form-control" type="file" name="Main_Picture" accept="image/*">
+            <label>Main Picture <span style="color:#d00">*</span></label>
+            <input class="form-control <?= $cf->hasError('Main_Picture') ? 'is-invalid' : ''; ?>" type="file" name="Main_Picture" accept="image/*" required>
+            <span class="invalid-feedback"><?= $cf->presentError('Main_Picture'); ?></span>
         </div>
 
         <div class="form-group">
-            <label>Sub Pictures</label>
-            <input class="form-control" type="file" name="Sub_Pictures[]" accept="image/*" multiple>
+            <label>Sub Pictures <span style="color:#d00">*</span></label>
+            <input class="form-control <?= $cf->hasError('Sub_Pictures') ? 'is-invalid' : ''; ?>" type="file" name="Sub_Pictures[]" accept="image/*" multiple required>
+            <span class="invalid-feedback"><?= $cf->presentError('Sub_Pictures'); ?></span>
         </div>
 
         <div class="form-group">
