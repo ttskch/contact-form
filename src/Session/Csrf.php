@@ -3,16 +3,26 @@ namespace Ttskch\ContactForm\Session;
 
 class Csrf
 {
-    const SESSION_KEY = 'ttskch-contact-form-csrf';
+    const SESSION_KEY = 'csrf';
+
+    /**
+     * @var Session
+     */
+    private $session;
+
+    public function __construct(Session $session)
+    {
+        $this->session = $session;
+    }
 
     public function generateToken()
     {
-        return $_SESSION[self::SESSION_KEY] = sha1(uniqid(mt_rand(), true));
+        return $this->session->set(self::SESSION_KEY, sha1(uniqid(mt_rand(), true)));
     }
 
     public function getToken()
     {
-        return @$_SESSION[self::SESSION_KEY] ?: null;
+        return $this->session->get(self::SESSION_KEY);
     }
 
     public function validate($token)

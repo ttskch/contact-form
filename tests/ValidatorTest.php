@@ -3,8 +3,12 @@ namespace Ttskch\ContactForm;
 
 use PHPUnit\Framework\TestCase;
 use Ttskch\ContactForm\Session\Errors;
+use Ttskch\ContactForm\Session\Session;
 use Ttskch\ContactForm\Session\Submissions;
 
+/**
+ * @group Validator
+ */
 class ValidatorTest extends TestCase
 {
     /**
@@ -16,9 +20,9 @@ class ValidatorTest extends TestCase
         $_SESSION = [];
         $_POST = @$submittedData['$_POST'] ?: [];
         $_FILES = @$submittedData['$_FILES'] ?: [];
-        $submissions = new Submissions(new UploadedFilesFixer());
+        $submissions = new Submissions($session = new Session(), new UploadedFilesFixer());
         $submissions->initialize();
-        $errors = new Errors();
+        $errors = new Errors($session);
 
         $validator = new Validator($requiredKeys, $emailKeys);
         $validator->validate($submissions, $errors);

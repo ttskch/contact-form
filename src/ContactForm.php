@@ -3,6 +3,7 @@ namespace Ttskch\ContactForm;
 
 use Ttskch\ContactForm\Session\Csrf;
 use Ttskch\ContactForm\Session\Errors;
+use Ttskch\ContactForm\Session\Session;
 use Ttskch\ContactForm\Session\Submissions;
 use Ttskch\ContactForm\ValueObject\ValidationMessages;
 
@@ -49,15 +50,18 @@ class ContactForm
 
     public function __construct(ValidationMessages $validationMessages = null, \Swift_Transport $transport = null)
     {
-        $this->submissions = new Submissions(new UploadedFilesFixer());
-        $this->errors = new Errors();
+        $session = new Session();
+        $this->submissions = new Submissions($session, new UploadedFilesFixer());
+        $this->errors = new Errors($session);
         $this->presenter = new SubmissionPresenter($this->submissions);
         $this->mailer = new Mailer($this->submissions, $transport);
         $this->context = new RequestContext();
-        $this->csrf = new Csrf();
+        $this->csrf = new Csrf($session);
         $this->validationMessages = $validationMessages;
 
-        session_start();
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
 
         $this->submissions->initialize();
     }

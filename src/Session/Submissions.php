@@ -5,22 +5,28 @@ use Ttskch\ContactForm\UploadedFilesFixer;
 
 class Submissions
 {
-    const SESSION_KEY = 'ttskch-contact-form-data';
+    const SESSION_KEY = 'data';
+
+    /**
+     * @var Session
+     */
+    private $session;
 
     /**
      * @var UploadedFilesFixer
      */
     private $fixer;
 
-    public function __construct(UploadedFilesFixer $fixer)
+    public function __construct(Session $session, UploadedFilesFixer $fixer)
     {
+        $this->session = $session;
         $this->fixer = $fixer;
     }
 
     /**
      * for testability
      */
-    public function setSession($session)
+    public function setSession(Session $session)
     {
         $this->session = $session;
     }
@@ -29,15 +35,17 @@ class Submissions
     {
         $this->fixer->fix();
 
-        $_SESSION[self::SESSION_KEY]['$_POST'] = array_merge(@$_SESSION[self::SESSION_KEY]['$_POST'] ?: [], @$_POST ?: []);
-        $_SESSION[self::SESSION_KEY]['$_FILES'] = array_merge(@$_SESSION[self::SESSION_KEY]['$_FILES'] ?: [], @$_FILES ?: []);
+        $this->session->set(self::SESSION_KEY, [
+            '$_POST' => array_merge($this->session->get(self::SESSION_KEY)['$_POST'] ?: [], @$_POST ?: []),
+            '$_FILES' => array_merge($this->session->get(self::SESSION_KEY)['$_FILES'] ?: [], @$_FILES ?: []),
+        ]);
     }
 
     public function get($dotSeparatedKeys)
     {
         $keys = explode('.', $dotSeparatedKeys);
 
-        $value = array_merge(@$_SESSION[self::SESSION_KEY]['$_POST'] ?: [], @$_SESSION[self::SESSION_KEY]['$_FILES'] ?: []);
+        $value = array_merge(@$this->session->get(self::SESSION_KEY)['$_POST'] ?: [], @$this->session->get(self::SESSION_KEY)['$_FILES'] ?: []);
 
         foreach ($keys as $key) {
             if (!isset($value[$key])) {
@@ -57,11 +65,11 @@ class Submissions
 
     public function isEmpty()
     {
-        return !isset($_SESSION[self::SESSION_KEY]) || (!$_SESSION[self::SESSION_KEY]['$_POST'] && !$_SESSION[self::SESSION_KEY]['$_FILES']);
+        return $this->session->has(self::SESSION_KEY) || (!@$this->session->get(self::SESSION_KEY)['$_POST'] && !@$this->session->get(self::SESSION_KEY)['$_FILES']);
     }
 
     public function clear()
     {
-        unset($_SESSION[self::SESSION_KEY]);
+        $this->session->clear(self::SESSION_KEY);
     }
 }

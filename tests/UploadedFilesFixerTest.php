@@ -3,6 +3,9 @@ namespace Ttskch\ContactForm;
 
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @group UploadedFilesFixer
+ */
 class UploadedFilesFixerTest extends TestCase
 {
     /**
