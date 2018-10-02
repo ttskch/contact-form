@@ -1,6 +1,8 @@
 {
     "name": "ttskch/contact-form",
-    "description": "",
+    "description": "PHP utility classes to implement general contact form",
+    "keywords": [],
+    "homepage": "https://github.com/ttskch/contact-form",
     "license": "MIT",
     "authors": [
         {

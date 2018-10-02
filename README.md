@@ -18,6 +18,12 @@ PHP utility classes to implement general contact form (also with confirmation vi
 ## Installation
 
 ```bash
+$ composer require ttskch/contact-form
+```
+
+or
+
+```bash
 $ git clone git@github.com:ttskch/contact-form.git
 $ cd contact-form
 $ composer install --no-dev
