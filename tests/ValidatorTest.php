@@ -5,6 +5,9 @@ use PHPUnit\Framework\TestCase;
 use Ttskch\ContactForm\Session\Errors;
 use Ttskch\ContactForm\Session\Submissions;
 
+/**
+ * @group Validator
+ */
 class ValidatorTest extends TestCase
 {
     /**
