@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
 
 $cf = new \Ttskch\ContactForm\ContactForm();
 $cf->validateAndRedirectAfterSelfPosted('./confirm.php', ['Name', 'Email', 'Main_Picture', 'Sub_Pictures'], ['Email']);
