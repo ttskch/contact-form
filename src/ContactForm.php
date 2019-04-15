@@ -122,7 +122,7 @@ class ContactForm
     {
         $message = $this->mailer->buildMessage($to, $from, $fromName, $subject, $body, $attachingSubmissionKeys);
 
-        $this->mailer->send($message);
+        return $this->mailer->send($message);
     }
 
     public function clearSubmissions()
