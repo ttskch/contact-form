@@ -2,7 +2,7 @@
 return [
     'notification' => [
         'to' => [
-            'ttskch@gmail.com',
+            'foo@example.com',
         ],
         'from' => 'noreploy@ttskch.com',
         'from_name' => 'ttskch',

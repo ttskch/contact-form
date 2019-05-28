@@ -27,7 +27,7 @@ Sub Pictures: %s
 %s
 EOT;
 
-$configs = require __DIR__ . '/config.en.php';
+$configs = require __DIR__ . '/../config.en.php';
 
 foreach ($configs as $config) {
     $body = vsprintf($template, [
