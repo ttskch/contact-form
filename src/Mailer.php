@@ -46,7 +46,6 @@ class Mailer
                 }
 
                 foreach ($names as $i => $name) {
-                    $name = sprintf('%s_%d.%s', $key, $i + 1, pathinfo((string)$name, PATHINFO_EXTENSION));
                     $path = (string)$this->submissions->get("{$key}.tmp_name.{$i}");
                     $type = (string)$this->submissions->get("{$key}.type.{$i}");
 
@@ -60,11 +59,10 @@ class Mailer
                     continue;
                 }
 
-                $name = sprintf('%s.%s', $key, pathinfo((string)$name, PATHINFO_EXTENSION));
                 $path = (string)$this->submissions->get("{$key}.tmp_name");
                 $type = (string)$this->submissions->get("{$key}.type");
 
-                $message->attach(\Swift_Attachment::fromPath($path, $type)->setFilename($name));
+                $message->attach(\Swift_Attachment::fromPath($path, $type)->setFilename((string)$name));
             }
         }
 

@@ -37,8 +37,8 @@ foreach ($configs as $config) {
         $cf->present('Gender', false),
         $cf->present('Categories', false),
         $cf->present('Message', false),
-        $cf->present('Main_Picture.name') ? '(Attached)' : '(None)',
-        $cf->present('Sub_Pictures.name.0') ? '(Attached)' : '(None)',
+        $cf->present('Main_Picture.name', false),
+        $cf->present('Sub_Pictures.name', false),
         $config['body_foot'],
     ]);
 
