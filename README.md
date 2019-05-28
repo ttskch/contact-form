@@ -1,5 +1,6 @@
 # contact-form
 
+[![Travis (.com) branch](https://img.shields.io/travis/com/ttskch/contact-form/master.svg?style=flat-square)](https://travis-ci.com/ttskch/contact-form)
 [![Latest Stable Version](https://poser.pugx.org/ttskch/contact-form/v/stable?format=flat-square)](https://packagist.org/packages/ttskch/contact-form)
 [![Total Downloads](https://poser.pugx.org/ttskch/contact-form/downloads?format=flat-square)](https://packagist.org/packages/ttskch/contact-form)
 
