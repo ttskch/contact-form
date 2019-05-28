@@ -1,7 +1,7 @@
 # contact-form
 
-[![Latest Stable Version](https://poser.pugx.org/ttskch/contact-form/v/stable)](https://packagist.org/packages/ttskch/contact-form)
-[![Total Downloads](https://poser.pugx.org/ttskch/contact-form/downloads)](https://packagist.org/packages/ttskch/contact-form)
+[![Latest Stable Version](https://poser.pugx.org/ttskch/contact-form/v/stable?format=flat-square)](https://packagist.org/packages/ttskch/contact-form)
+[![Total Downloads](https://poser.pugx.org/ttskch/contact-form/downloads?format=flat-square)](https://packagist.org/packages/ttskch/contact-form)
 
 PHP utility classes to implement general contact form (also with confirmation view). It's maybe useful to build contact form on WordPress or pure PHP site.
 
