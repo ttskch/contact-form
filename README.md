@@ -158,3 +158,7 @@ $cf->clearSubmissions();
 ```
 
 See [demo](demo) code or run it on your local to learn more :)
+
+### Precaution
+
+Because this utility calls [header()](https://www.php.net/manual/en/function.header.php) function to redirect, you must execute instantiation and some methods before any actual output is sent.
